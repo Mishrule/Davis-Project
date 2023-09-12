@@ -49,7 +49,7 @@
             <li class="has-children">
                 <a href="#"><i class="fa fa-users"></i> <span>Fees Payment & Owings</span> <i class="fa fa-angle-right arrow"></i></a>
                 <ul class="child-nav">
-                    <li><a href=""><i class="fa fa-bars"></i> <span>Fees</span></a></li>
+                    <li><a href=""><i class="fa fa-bars"></i> <span>Create Bills</span></a></li>
                     <li><a href=""><i class="fa fa fa-server"></i> <span>Check Fees</span></a></li>
 
                 </ul>
