@@ -170,6 +170,7 @@ foreach($results as $result)
         <script src="js/prism/prism.js"></script>
         <script src="js/select2/select2.min.js"></script>
         <script src="js/main.js"></script>
+        
         <script>
             $(function($) {
                 $(".js-states").select2();

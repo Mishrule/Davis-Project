@@ -203,6 +203,6 @@ $totalresults=$query3->rowCount();
 
 </footer> </div>
 
-<style> .foot{text-align: center; */}</style>
+<style> .foot{text-align: center; }</style>
 </html>
 <?php } ?>

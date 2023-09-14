@@ -47,10 +47,18 @@
                 </ul>
             </li>
             <li class="has-children">
-                <a href="#"><i class="fa fa-users"></i> <span>Fees Payment & Owings</span> <i class="fa fa-angle-right arrow"></i></a>
+                <a href="#"><i class="fa fa-users"></i> <span>Bills</span> <i class="fa fa-angle-right arrow"></i></a>
                 <ul class="child-nav">
-                    <li><a href=""><i class="fa fa-bars"></i> <span>Create Bills</span></a></li>
-                    <li><a href=""><i class="fa fa fa-server"></i> <span>Check Fees</span></a></li>
+                    <li><a href="create-bill.php"><i class="fa fa-bars"></i> <span>Set Student Bills</span></a></li>
+                    <li><a href="manage-bills.php"><i class="fa fa fa-server"></i> <span>Manage Student Bills</span></a></li>
+
+                </ul>
+            </li>
+            <li class="has-children">
+                <a href="#"><i class="fa fa-users"></i> <span>Payment</span> <i class="fa fa-angle-right arrow"></i></a>
+                <ul class="child-nav">
+                   <!-- <li><a href="make-payment.php"><i class="fa fa-bars"></i> <span>Make Payment</span></a></li> -->
+                    <li><a href="manage-payment.php"><i class="fa fa fa-server"></i> <span>Manage Payment</span></a></li>
 
                 </ul>
             </li>
