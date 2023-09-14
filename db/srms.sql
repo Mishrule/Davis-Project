@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2022 at 12:12 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 5.6.40
+-- Generation Time: Sep 15, 2023 at 01:23 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,8 +31,8 @@ CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `UserName` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
@@ -41,6 +40,61 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '2020-06-11 12:26:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblaccounts`
+--
+
+CREATE TABLE `tblaccounts` (
+  `id` int(11) NOT NULL,
+  `studentNumber` varchar(250) NOT NULL,
+  `billamount` varchar(250) NOT NULL,
+  `paymentAmount` varchar(250) DEFAULT NULL,
+  `term` varchar(250) DEFAULT NULL,
+  `academicYear` varchar(250) DEFAULT NULL,
+  `paymentStatus` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblaccounts`
+--
+
+INSERT INTO `tblaccounts` (`id`, `studentNumber`, `billamount`, `paymentAmount`, `term`, `academicYear`, `paymentStatus`) VALUES
+(1, '1', '500', '0.0', '1', '2020/2021', NULL),
+(2, '2', '500', '0.0', '1', '2020/2021', NULL),
+(3, '3', '500', '0.0', '1', '2020/2021', NULL),
+(4, '4', '500', '0.0', '1', '2020/2021', NULL),
+(5, '5', '500', '0.0', '1', '2020/2021', NULL),
+(6, '6', '500', '0.0', '1', '2020/2021', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblbills`
+--
+
+CREATE TABLE `tblbills` (
+  `id` int(11) NOT NULL,
+  `studentNumber` varchar(250) DEFAULT NULL,
+  `academicYear` varchar(250) DEFAULT NULL,
+  `term` int(250) DEFAULT NULL,
+  `billamount` varchar(250) DEFAULT NULL,
+  `studentClass` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblbills`
+--
+
+INSERT INTO `tblbills` (`id`, `studentNumber`, `academicYear`, `term`, `billamount`, `studentClass`) VALUES
+(1, '1', '2020/2021', 1, '500', '1'),
+(2, '2', '2020/2021', 1, '500', '1'),
+(3, '3', '2020/2021', 1, '500', '1'),
+(4, '4', '2020/2021', 1, '500', '1'),
+(5, '5', '2020/2021', 1, '500', '1'),
+(6, '6', '2020/2021', 1, '500', '1');
 
 -- --------------------------------------------------------
 
@@ -53,9 +107,9 @@ CREATE TABLE `tblclasses` (
   `ClassName` varchar(80) DEFAULT NULL,
   `ClassNameNumeric` int(4) NOT NULL,
   `Section` varchar(5) NOT NULL,
-  `CreationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblclasses`
@@ -76,9 +130,9 @@ CREATE TABLE `tblresult` (
   `ClassId` int(11) DEFAULT NULL,
   `SubjectId` int(11) DEFAULT NULL,
   `marks` int(11) DEFAULT NULL,
-  `PostingDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `PostingDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblresult`
@@ -102,10 +156,10 @@ CREATE TABLE `tblstudents` (
   `Gender` varchar(10) NOT NULL,
   `DOB` varchar(100) NOT NULL,
   `ClassId` int(11) NOT NULL,
-  `RegDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `RegDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `Status` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblstudents`
@@ -125,9 +179,9 @@ CREATE TABLE `tblsubjectcombination` (
   `ClassId` int(11) NOT NULL,
   `SubjectId` int(11) NOT NULL,
   `status` int(1) DEFAULT NULL,
-  `CreationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updationdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Updationdate` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblsubjectcombination`
@@ -147,9 +201,9 @@ CREATE TABLE `tblsubjects` (
   `id` int(11) NOT NULL,
   `SubjectName` varchar(100) NOT NULL,
   `SubjectCode` varchar(100) NOT NULL,
-  `Creationdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Creationdate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblsubjects`
@@ -167,6 +221,18 @@ INSERT INTO `tblsubjects` (`id`, `SubjectName`, `SubjectCode`, `Creationdate`, `
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblaccounts`
+--
+ALTER TABLE `tblaccounts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblbills`
+--
+ALTER TABLE `tblbills`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -208,6 +274,18 @@ ALTER TABLE `tblsubjects`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblaccounts`
+--
+ALTER TABLE `tblaccounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tblbills`
+--
+ALTER TABLE `tblbills`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblclasses`
