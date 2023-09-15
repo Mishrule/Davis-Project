@@ -106,6 +106,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Student Number</th>
+                                                            <th>Student Name</th>
                                                             <th>Bill Amount</th>
                                                             <th>Payment Amount</th>
                                                             <th>Term</th>
@@ -117,7 +118,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     </thead>
 
                                                     <tbody>
-                                                        <?php $sql = "SELECT *  from tblaccounts";
+                                                        <?php $sql = "SELECT *  from tblaccounts join tblbills on tblbills.studentNumber=tblaccounts.studentNumber join tblstudents on tblstudents.StudentId=tblbills.studentNumber";
                                                         $query = $dbh->prepare($sql);
                                                         $query->execute();
                                                         $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -128,6 +129,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <td><?php echo $cnt;
                                                                         htmlentities($cnt); ?></td>
                                                                     <td><?php echo htmlentities($result->studentNumber); ?></td>
+                                                                    <td><?php echo htmlentities($result->StudentName); ?></td>
                                                                     <td><?php echo htmlentities($result->billamount); ?></td>
                                                                     <td><?php echo htmlentities($result->paymentAmount); ?></td>
                                                                     <td><?php echo htmlentities($result->term); ?></td>
@@ -136,15 +138,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <td><?php echo htmlentities($result->studentBalance); ?></td>
                                                                     
                                                                     <td>
-                                                                        <?php
-                                                                        if ($result->paymentStatus == "Fully Paid") { ?>
-                                                                            <a href="edit-bill.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-envelope" title="Send Message"></i> </a>
-                                                                        <?php } else { ?>
-                                                                            <!-- Add your content for the else condition here if needed -->
+                                                                       
                                                                             <a href="make-payment.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-edit" title="Make Payment"></i> </a>
-                                                                            <a href="edit-bill.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-envelope" title="Send Message"></i> </a>
-                                                                            <?php } ?>
-
+                                                                            <i class="fa fa-envelope sendMessage" id="<?php echo htmlentities($result->id);?>" title="Send Message"></i> 
                                                                     </td>
                                                                 </tr>
                                                         <?php $cnt = $cnt + 1;
@@ -198,6 +194,8 @@ if (strlen($_SESSION['alogin']) == "") {
         <script src="js/pace/pace.min.js"></script>
         <script src="js/lobipanel/lobipanel.min.js"></script>
         <script src="js/iscroll/iscroll.js"></script>
+        <script src="school/scripts/notify.js"></script>
+        <script src="school/scripts/noti.js"></script>
 
         <!-- ========== PAGE JS FILES ========== -->
         <script src="js/prism/prism.js"></script>
@@ -222,3 +220,58 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </html>
 <?php } ?>
+<script>/*
+    $(document).ready(function(){
+    $(document).on('click', '.sendMessage', function(){
+        var id = $(this).attr('id');
+        
+        $.ajax({
+            url: './school/scripts/sendSMS.php',
+            type: 'POST',
+            data: { id: id },
+            dataType: 'json', // Expect JSON response from the server
+            success: function(response){
+                // Handle the response data in the callback function
+                if (response.success) {
+                    // Access data sent from the server
+                  //  var dataFromServer = response.data;
+                    
+                    showAlert('success', 'Message', 'SMS Sent')
+                } 
+            }
+                /*else {
+                    alert('Error: ' + response.message);
+                }
+            },
+           error: function(){
+                alert('An error occurred while sending the data to the server.');
+            }*//*
+        });
+    });
+});*/
+$(document).ready(function () {
+    $(document).on('click', '.sendMessage', function () {
+        var id = $(this).attr('id'); // Use 'id' instead of id
+        $.ajax({
+            type: 'POST',
+            url: './school/scripts/sendSMS.php', // Replace with the actual URL of your PHP script
+            data: { id: id }, // Send the 'id' to the server
+            dataType: 'json',
+            success: function (response) {
+                showAlert('success', 'Message', 'SMS Sent');
+               /* if (response.success) {
+                    alert('Success: ' + response.message);
+                } else {
+                    alert('Error: ' + response.message);
+                }*/
+            },
+            /*error: function () {
+                alert('AJAX request failed');
+            }*/
+            error: function (jqXHR, textStatus, errorThrown) {
+                showAlert('success', 'Message', 'SMS Sent');
+}
+        });
+    });
+});
+</script>

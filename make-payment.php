@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 error_reporting(0);
 include('includes/config.php');
@@ -18,11 +18,14 @@ if (strlen($_SESSION['alogin']) == "") {
         $studentBalance = $_POST['studentBalance'];
         $contact = 0;
 
-        $sql = "SELECT tblguardianinfo.contact From tblguardianinfo join tblstudents on tblguardianinfo.studentnumber=tblstudents.id where id=:id";
-                                            $getquery = $dbh->prepare($sql);
+        $getsql = "SELECT guardianContact From tblstudents  where StudentId=:id";
+                                            $getquery = $dbh->prepare($getsql);
                                             $getquery->bindParam(':id', $id, PDO::PARAM_STR);
                                             $getquery->execute();
                                             $getresults = $getquery->fetch(PDO::FETCH_OBJ);
+
+       
+    
 
         $sql = "UPDATE tblaccounts SET studentNumber=:studentNumber, paymentAmount=:paymentAmount, paymentStatus=:paymentStatus, studentBalance=:studentBalance WHERE id=:id";
         
@@ -34,25 +37,22 @@ if (strlen($_SESSION['alogin']) == "") {
         $query->bindParam(':id', $id, PDO::PARAM_STR);
         $query->execute();
 
-        $msg = "Payment made successfully";
-        // You can add more logic here if needed, but no redirection should be performed.
-
-
-        
-    // set up the request headers
+        if($query->execute()){
+            // set up the request headers
     $headers = [
         'Host: api.smsonlinegh.com',
         'Content-Type: application/json',
         'Accept: application/json',
-        'Authorization: key 49244f8ffc3ed558188b699747d07186a675db279f9b42408ead155535b78571'
+        'Authorization: key d88211d0faa9300c31bcb127efa348f15e7b8cce3852ee7c1a302979adeded87'
     ];
 	
     // set up the message data
     $messageData = [
-        'text'=>'GHS '.$paymentAmount.'as Fees. Payment status: '.$paymentStatus.' Balance :'.$studentBalance,
+        'text'=>'Amount Paid as fees is GHS '.$paymentAmount.', Payment status: '.$paymentStatus.' and Balance :'.$studentBalance,
         'type'=> 0,	// GSM default
-        'sender'=> 'TEST',
-        'destinations'=> [$getresults->contact]
+        //'sender'=> 'TEST',
+        'sender' => 'SRMS_PAY',
+        'destinations'=> [$getresults->guardianContact]
     ];
 	
     // initialise cURL
@@ -75,14 +75,20 @@ if ($httpCode == 200){
     var_dump($response);
 }
 
+        }
+        
 
+        $msg = "Payment made successfully";
+        // You can add more logic here if needed, but no redirection should be performed.
 
 
     }
 }
 
-// Rest of your HTML and PHP code...
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -147,12 +153,12 @@ if ($httpCode == 200){
 
                                     <div class="panel-body">
                                         <?php if ($msg) { ?>
-                                            <div class="alert alert-success left-icon-alert" role="alert">
-                                                <strong>Well done!</strong><?php echo htmlentities($msg); ?>
-                                            </div><?php } else if ($error) { ?>
-                                            <div class="alert alert-danger left-icon-alert" role="alert">
-                                                <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
-                                            </div>
+                                        <div class="alert alert-success left-icon-alert" role="alert">
+                                            <strong>Well done!</strong><?php echo htmlentities($msg); ?>
+                                        </div><?php } else if ($error) { ?>
+                                        <div class="alert alert-danger left-icon-alert" role="alert">
+                                            <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
+                                        </div>
                                         <?php } ?>
                                         <form class="form-horizontal" method="post">
                                             <?php
@@ -168,42 +174,59 @@ if ($httpCode == 200){
                                                 foreach ($results as $result) {  ?>
 
 
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Student Id</label>
-                                                        <div class="col-sm-10">
-                                                            <!--<input type="number" name="id" class="form-control" id="id" value="<?php echo htmlentities($result->id) ?>" required="required" autocomplete="off" hidden="true">-->
-                                                            <input type="number" name="studentNumber" class="form-control" id="studentNumber" value="<?php echo htmlentities($result->studentNumber) ?>" required="required" autocomplete="off" readonly>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="default" class="col-sm-2 control-label">Student Id</label>
+                                                <div class="col-sm-10">
+                                                    <!--<input type="number" name="id" class="form-control" id="id" value="<?php echo htmlentities($result->id) ?>" required="required" autocomplete="off" hidden="true">-->
+                                                    <input type="number" name="studentNumber" class="form-control"
+                                                        id="studentNumber"
+                                                        value="<?php echo htmlentities($result->studentNumber) ?>"
+                                                        required="required" autocomplete="off" readonly>
+                                                </div>
+                                            </div>
 
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Amount Owning</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" name="billAmount" class="form-control" id="billAmount" value="<?php echo htmlentities($result->studentBalance) ?>" required="required" autocomplete="off" readonly>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="default" class="col-sm-2 control-label">Amount
+                                                    Owning</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="billAmount" class="form-control"
+                                                        id="billAmount"
+                                                        value="<?php echo htmlentities($result->studentBalance) ?>"
+                                                        required="required" autocomplete="off" readonly>
+                                                </div>
+                                            </div>
 
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Payment</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="number" name="paymentAmount" class="form-control" id="paymentAmount" value="<?php echo htmlentities($result->paymentAmount) ?>" required="required" autocomplete="off">
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="default" class="col-sm-2 control-label">Payment</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" name="paymentAmount" class="form-control"
+                                                        id="paymentAmount"
+                                                        value="<?php echo htmlentities($result->paymentAmount) ?>"
+                                                        required="required" autocomplete="off">
+                                                </div>
+                                            </div>
 
 
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Payment Status</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" name="paymentStatus" class="form-control" id="paymentStatus" value="<?php echo htmlentities($result->paymentStatus) ?>" readonly>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="default" class="col-sm-2 control-label">Payment
+                                                    Status</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="paymentStatus" class="form-control"
+                                                        id="paymentStatus"
+                                                        value="<?php echo htmlentities($result->paymentStatus) ?>"
+                                                        readonly>
+                                                </div>
+                                            </div>
 
-                                                    <div class="form-group">
-                                                        <label for="text" class="col-sm-2 control-label">Student Balance</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" name="studentBalance" id="studentBalance" class="form-control" value="<?php echo htmlentities($result->studentBalance) ?>" id="studentClass" readonly>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label for="text" class="col-sm-2 control-label">Student Balance</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="studentBalance" id="studentBalance"
+                                                        class="form-control"
+                                                        value="<?php echo htmlentities($result->studentBalance) ?>"
+                                                        id="studentClass" readonly>
+                                                </div>
+                                            </div>
 
 
                                             <?php }
@@ -212,7 +235,8 @@ if ($httpCode == 200){
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" name="submit" class="btn btn-warning">Update</button>
+                                                    <button type="submit" name="submit"
+                                                        class="btn btn-warning">Update</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -238,15 +262,15 @@ if ($httpCode == 200){
         <script src="js/select2/select2.min.js"></script>
         <script src="js/main.js"></script>
         <script>
-            $(function($) {
-                $(".js-states").select2();
-                $(".js-states-limit").select2({
-                    maximumSelectionLength: 2
-                });
-                $(".js-states-hide").select2({
-                    minimumResultsForSearch: Infinity
-                });
+        $(function($) {
+            $(".js-states").select2();
+            $(".js-states-limit").select2({
+                maximumSelectionLength: 2
             });
+            $(".js-states-hide").select2({
+                minimumResultsForSearch: Infinity
+            });
+        });
         </script>
 </body>
 
@@ -254,7 +278,6 @@ if ($httpCode == 200){
 <?PHP  ?>
 
 <script>
-
 $(document).ready(function() {
     $('#paymentAmount').on('input', function() {
         var billAmount = parseFloat($('#billAmount').val());
@@ -269,7 +292,7 @@ $(document).ready(function() {
         }
 
         var studentBalance = billAmount - paymentAmount;
-        
+
         // Update the studentBalance field with the calculated amount
         $('#studentBalance').val(studentBalance);
 

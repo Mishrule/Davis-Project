@@ -62,14 +62,7 @@
 
                 </ul>
             </li>
-            <li class="has-children">
-                <a href="#"><i class="fa fa-users"></i> <span>SMS</span> <i class="fa fa-angle-right arrow"></i></a>
-                <ul class="child-nav">
-                    <li><a href=""><i class="fa fa-bars"></i> <span>Send SMS</span></a></li>
-                    <li><a href=""><i class="fa fa fa-server"></i> <span></span></a></li>
-
-                </ul>
-            </li>
+            
             <li class="has-children">
                 <a href="#"><i class="fa fa-info-circle"></i> <span>Result</span> <i class="fa fa-angle-right arrow"></i></a>
                 <ul class="child-nav">
