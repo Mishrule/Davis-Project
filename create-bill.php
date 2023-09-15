@@ -37,6 +37,20 @@ include('includes/config.php');
                 -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
                 box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             }
+
+            .downloadTemplate{
+                display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF; /* Blue background color */
+  color: #fff; /* White text color */
+  text-decoration: none; /* Remove underlines from the link */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s;
+  
+            }
+            .downloadTemplate:hover{
+                background-color:#0056b3;
+            }
         </style>
     </head>
 
@@ -86,6 +100,7 @@ include('includes/config.php');
                                             <div class="panel-heading">
                                                 <div class="panel-title">
                                                     <h5>Upload Bills</h5>
+                                                    <a href="Student_bill_template.csv" download class="btn btn-info btn-sm">Download Bill Template</a>
                                                 </div>
                                                 <div id="result" style="color:#dd3d36;"></div>
                                             </div>

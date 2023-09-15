@@ -111,10 +111,11 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <th>Term</th>
                                                             <th>Academic Year</th>
                                                             <th>Payment Status</th>
+                                                            <th>Student Balance</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
-                                                   
+
                                                     <tbody>
                                                         <?php $sql = "SELECT *  from tblaccounts";
                                                         $query = $dbh->prepare($sql);
@@ -124,17 +125,26 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         if ($query->rowCount() > 0) {
                                                             foreach ($results as $result) {   ?>
                                                                 <tr>
-                                                                    <td><?php echo $cnt; htmlentities($cnt); ?></td>
+                                                                    <td><?php echo $cnt;
+                                                                        htmlentities($cnt); ?></td>
                                                                     <td><?php echo htmlentities($result->studentNumber); ?></td>
                                                                     <td><?php echo htmlentities($result->billamount); ?></td>
                                                                     <td><?php echo htmlentities($result->paymentAmount); ?></td>
                                                                     <td><?php echo htmlentities($result->term); ?></td>
                                                                     <td><?php echo htmlentities($result->academicYear); ?></td>
                                                                     <td><?php echo htmlentities($result->paymentStatus); ?></td>
-                                                                   
+                                                                    <td><?php echo htmlentities($result->studentBalance); ?></td>
+                                                                    
                                                                     <td>
-                                                                        <a href="make-payment.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-edit" title="Make Payment"></i> </a>
-                                                                        <a href="edit-bill.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-envelope" title="Send Message"></i> </a>
+                                                                        <?php
+                                                                        if ($result->paymentStatus == "Fully Paid") { ?>
+                                                                            <a href="edit-bill.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-envelope" title="Send Message"></i> </a>
+                                                                        <?php } else { ?>
+                                                                            <!-- Add your content for the else condition here if needed -->
+                                                                            <a href="make-payment.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-edit" title="Make Payment"></i> </a>
+                                                                            <a href="edit-bill.php?id=<?php echo htmlentities($result->id); ?>"><i class="fa fa-envelope" title="Send Message"></i> </a>
+                                                                            <?php } ?>
+
                                                                     </td>
                                                                 </tr>
                                                         <?php $cnt = $cnt + 1;
