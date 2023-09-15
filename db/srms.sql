@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2023 at 08:59 AM
+-- Generation Time: Sep 15, 2023 at 02:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -63,12 +63,12 @@ CREATE TABLE `tblaccounts` (
 --
 
 INSERT INTO `tblaccounts` (`id`, `studentNumber`, `billamount`, `paymentAmount`, `term`, `academicYear`, `paymentStatus`, `studentBalance`) VALUES
-(1, '1', '500', '480', '1', '2020/2021', 'Fully Paid', '0'),
-(2, '2', '500', '0.0', '1', '2020/2021', NULL, NULL),
-(3, '3', '500', '0.0', '1', '2020/2021', NULL, NULL),
-(4, '4', '500', '0.0', '1', '2020/2021', NULL, NULL),
-(5, '5', '500', '0.0', '1', '2020/2021', NULL, NULL),
-(6, '6', '500', '0.0', '1', '2020/2021', NULL, NULL);
+(1, '1', '500', '1', '1', '2020/2021', 'Owning', '299'),
+(2, '2', '500', '1', '1', '2020/2021', 'Owning', '499'),
+(3, '3', '500', '500', '1', '2020/2021', 'Fully Paid', '0'),
+(4, '4', '500', '0.0', '1', '2020/2021', 'owing', '500'),
+(5, '5', '500', '0.0', '1', '2020/2021', 'owing', '500'),
+(6, '6', '500', '0.0', '1', '2020/2021', 'owing', '500');
 
 -- --------------------------------------------------------
 
@@ -122,19 +122,6 @@ INSERT INTO `tblclasses` (`id`, `ClassName`, `ClassNameNumeric`, `Section`, `Cre
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblguardianinfo`
---
-
-CREATE TABLE `tblguardianinfo` (
-  `id` int(11) NOT NULL,
-  `name` varchar(250) NOT NULL,
-  `contact` varchar(250) NOT NULL,
-  `studentnumber` int(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tblresult`
 --
 
@@ -172,15 +159,19 @@ CREATE TABLE `tblstudents` (
   `ClassId` int(11) NOT NULL,
   `RegDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
-  `Status` int(1) NOT NULL
+  `Status` int(1) NOT NULL,
+  `guardianName` varchar(250) DEFAULT NULL,
+  `guardianContact` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblstudents`
 --
 
-INSERT INTO `tblstudents` (`StudentId`, `StudentName`, `RollId`, `StudentEmail`, `Gender`, `DOB`, `ClassId`, `RegDate`, `UpdationDate`, `Status`) VALUES
-(1, 'Edusei', '07170', 'kojo@gmail.com', 'Male', '2000-05-08', 1, '2022-08-12 09:41:50', NULL, 1);
+INSERT INTO `tblstudents` (`StudentId`, `StudentName`, `RollId`, `StudentEmail`, `Gender`, `DOB`, `ClassId`, `RegDate`, `UpdationDate`, `Status`, `guardianName`, `guardianContact`) VALUES
+(1, 'Edusei', '07170', 'kojo@gmail.com', 'Male', '2000-05-08', 1, '2022-08-12 09:41:50', NULL, 1, NULL, NULL),
+(2, 'Student 2', '1', 's@s.com', 'Male', '2023-09-15', 1, '2023-09-15 09:13:53', NULL, 1, 'G 2', '0248598526'),
+(3, 'Student 3', '1', 's3@s.com', 'Female', '2023-08-29', 1, '2023-09-15 09:22:12', NULL, 1, 'G3', '0200206818');
 
 -- --------------------------------------------------------
 
@@ -256,12 +247,6 @@ ALTER TABLE `tblclasses`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tblguardianinfo`
---
-ALTER TABLE `tblguardianinfo`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tblresult`
 --
 ALTER TABLE `tblresult`
@@ -314,12 +299,6 @@ ALTER TABLE `tblclasses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tblguardianinfo`
---
-ALTER TABLE `tblguardianinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tblresult`
 --
 ALTER TABLE `tblresult`
@@ -329,7 +308,7 @@ ALTER TABLE `tblresult`
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `StudentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblsubjectcombination`
