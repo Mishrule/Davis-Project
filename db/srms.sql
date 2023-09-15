@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2023 at 01:23 AM
+-- Generation Time: Sep 15, 2023 at 08:59 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -54,20 +54,21 @@ CREATE TABLE `tblaccounts` (
   `paymentAmount` varchar(250) DEFAULT NULL,
   `term` varchar(250) DEFAULT NULL,
   `academicYear` varchar(250) DEFAULT NULL,
-  `paymentStatus` varchar(250) DEFAULT NULL
+  `paymentStatus` varchar(250) DEFAULT NULL,
+  `studentBalance` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblaccounts`
 --
 
-INSERT INTO `tblaccounts` (`id`, `studentNumber`, `billamount`, `paymentAmount`, `term`, `academicYear`, `paymentStatus`) VALUES
-(1, '1', '500', '0.0', '1', '2020/2021', NULL),
-(2, '2', '500', '0.0', '1', '2020/2021', NULL),
-(3, '3', '500', '0.0', '1', '2020/2021', NULL),
-(4, '4', '500', '0.0', '1', '2020/2021', NULL),
-(5, '5', '500', '0.0', '1', '2020/2021', NULL),
-(6, '6', '500', '0.0', '1', '2020/2021', NULL);
+INSERT INTO `tblaccounts` (`id`, `studentNumber`, `billamount`, `paymentAmount`, `term`, `academicYear`, `paymentStatus`, `studentBalance`) VALUES
+(1, '1', '500', '480', '1', '2020/2021', 'Fully Paid', '0'),
+(2, '2', '500', '0.0', '1', '2020/2021', NULL, NULL),
+(3, '3', '500', '0.0', '1', '2020/2021', NULL, NULL),
+(4, '4', '500', '0.0', '1', '2020/2021', NULL, NULL),
+(5, '5', '500', '0.0', '1', '2020/2021', NULL, NULL),
+(6, '6', '500', '0.0', '1', '2020/2021', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -117,6 +118,19 @@ CREATE TABLE `tblclasses` (
 
 INSERT INTO `tblclasses` (`id`, `ClassName`, `ClassNameNumeric`, `Section`, `CreationDate`, `UpdationDate`) VALUES
 (1, 'Class 1', 1, 'B', '2022-08-12 09:39:36', '2022-08-12 09:40:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblguardianinfo`
+--
+
+CREATE TABLE `tblguardianinfo` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `contact` varchar(250) NOT NULL,
+  `studentnumber` int(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -242,6 +256,12 @@ ALTER TABLE `tblclasses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblguardianinfo`
+--
+ALTER TABLE `tblguardianinfo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tblresult`
 --
 ALTER TABLE `tblresult`
@@ -292,6 +312,12 @@ ALTER TABLE `tblbills`
 --
 ALTER TABLE `tblclasses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblguardianinfo`
+--
+ALTER TABLE `tblguardianinfo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblresult`
