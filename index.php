@@ -48,7 +48,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 
             <div class="">
                 <div class="row">
- <h1 align="center">Student Records Management System</h1>
+ <h1 align="center">Student Academic Performance Monitoring System</h1>
                     <div class="col-lg-6 visible-lg-block">
 
 <section class="section">
@@ -66,7 +66,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
                                                 <div class="panel-body p-20">
 
                                                     <div class="section-title">
-                                                        <p class="sub-title">Student Records Management System</p>
+                                                        <p class="sub-title"></p>
                                                     </div>
 
                                                     <form class="form-horizontal" method="post">
@@ -112,7 +112,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
                                                 <div class="panel-body p-20">
 
                                                     <div class="section-title">
-                                                        <p class="sub-title">Student Records Management System</p>
+                                                        <p class="sub-title"></p>
                                                     </div>
 
                                                     <form class="form-horizontal" method="post">
